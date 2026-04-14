@@ -1,0 +1,13 @@
+{
+  "welcome_message": "🌟 *BIENVENUE SUR SIRA SERVICES* 🌟\n\nQue souhaitez-vous faire aujourd'hui ?\nSélectionnez une option ci-dessous :",
+  "terms_and_conditions": "👋 Bienvenue sur *Sira Services* !\n\n📌 Vos informations sont enregistrées pour traiter vos commandes.\n📌 Nous garantissons la confidentialité de vos données.\n\n✅ Acceptez-vous nos conditions ?",
+  "menu_options":[
+    { "id": "flow_FOOD", "title": "🍔 Commander à manger", "description": "Plats et Boissons" },
+    { "id": "flow_MARKET", "title": "🛒 Sira Market", "description": "Boutiques & Mode" },
+    { "id": "flow_TAXI", "title": "🚕 Transport & Colis", "description": "Taxis, Motos, Coursiers" },
+    { "id": "flow_BUS", "title": "🚌 Voyage Interurbain", "description": "Billets de Bus" },
+    { "id": "flow_IMMO", "title": "🏠 Agence Immobilière", "description": "Maisons & Apparts" }
+  ],
+  "taxi_pricing": 2000,
+  "bus_pricing": 8000
+}

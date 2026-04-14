@@ -1,0 +1,11 @@
+-- AlterTable
+ALTER TABLE "Courier" ADD COLUMN     "rating" DOUBLE PRECISION,
+ADD COLUMN     "totalJobs" INTEGER NOT NULL DEFAULT 0;
+
+-- AlterTable
+ALTER TABLE "Delivery" ADD COLUMN     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+ADD COLUMN     "distanceKm" DOUBLE PRECISION,
+ADD COLUMN     "estimatedTime" INTEGER;
+
+-- AlterTable
+ALTER TABLE "Restaurant" ADD COLUMN     "preparationTime" INTEGER NOT NULL DEFAULT 15;

@@ -1,0 +1,104 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum BusinessType {
+  FOOD
+  MARKET
+  REAL_ESTATE
+  TRANSPORT
+}
+
+enum OrderStatus {
+  DRAFT
+  PENDING
+  PAID
+  ACCEPTED
+  ASSIGNED
+  COMPLETED
+  CANCELLED
+}
+
+model User {
+  id            String   @id @default(uuid())
+  phone         String   @unique
+  name          String?
+  latitude      Float?
+  longitude     Float?
+  
+  hasAcceptedTC Boolean  @default(false)
+  botState      String   @default("IDLE")
+  tempData      Json?
+  
+  loyaltyPoints Int      @default(0) // 🎁 NOUVEAU : Sira Rewards !
+
+  orders        Order[]
+  createdAt     DateTime @default(now())
+}
+
+model Driver {
+  id          String   @id @default(uuid())
+  phone       String   @unique
+  name        String
+  zone        String?
+  isAvailable Boolean  @default(true)
+  orders      Order[]  
+}
+
+model Business {
+  id          String       @id @default(uuid())
+  name        String
+  type        BusinessType 
+  phone       String?
+  address     String?
+  latitude    Float?       // 📍 NOUVEAU : Position GPS du Partenaire
+  longitude   Float?       // 📍 NOUVEAU : Position GPS du Partenaire
+  products    Product[]    
+  orders      Order[]
+}
+
+model Product {
+  id          String       @id @default(uuid())
+  name        String
+  price       Float
+  category    BusinessType
+  businessId  String
+  business    Business     @relation(fields: [businessId], references:[id])
+  orderItems  OrderItem[]  
+}
+
+model OrderItem {
+  id        String   @id @default(uuid())
+  orderId   String
+  order     Order    @relation(fields:[orderId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product  @relation(fields: [productId], references: [id])
+  quantity  Int      @default(1)
+  price     Float    
+}
+
+model Order {
+  id            String      @id @default(uuid())
+  userId        String
+  user          User        @relation(fields: [userId], references: [id])
+  businessId    String?     
+  business      Business?   @relation(fields: [businessId], references:[id])
+  driverId      String?     
+  driver        Driver?     @relation(fields:[driverId], references: [id])
+  
+  items         OrderItem[]
+  
+serviceName   String?     // 👈 AJOUTE CETTE LIGNE ICI
+
+  totalAmount   Float       @default(0)
+  paymentMethod String      @default("CASH")
+  status        OrderStatus @default(DRAFT)
+  latitude      Float?
+  longitude     Float?
+  createdAt     DateTime    @default(now())
+}
