@@ -366,4 +366,5 @@ app.post('/webhook', async (req, res) => {
     } catch(e) { console.error("❌ Erreur Webhook:", e); }
 });
 
-app.listen(PORT, () => console.log(`🚀 Serveur SIRA REWARDS & DISPATCH sur port ${PORT}`));
+// On ajoute '0.0.0.0' pour que Railway puisse se connecter au port !
+app.listen(PORT, '0.0.0.0', () => console.log(`🚀 Serveur SIRA MONDIAL sur port ${PORT}`));
