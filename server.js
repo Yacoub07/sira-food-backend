@@ -33,6 +33,24 @@ async function sendWhatsAppList(toPhone, textTitle, rows) {
     await fetch(`https://graph.facebook.com/v17.0/${PHONE_NUMBER_ID}/messages`, { method: 'POST', headers: { 'Authorization': `Bearer ${WHATSAPP_TOKEN}`, 'Content-Type': 'application/json' }, body: JSON.stringify({ messaging_product: "whatsapp", to: toPhone, type: "interactive", interactive: { type: "list", header: { type: "text", text: "SIRA SERVICES" }, body: { text: textTitle }, footer: { text: "Faites votre choix" }, action: { button: "Ouvrir le Menu 📋", sections:[{ title: "Options", rows: safeRows }] } } }) });
 }
 
+
+// --- ⚙️ API PARAMÈTRES ---
+app.get('/api/settings', async (req, res) => {
+    let settings = await prisma.appSettings.findUnique({ where: { id: "global" } });
+    if (!settings) settings = await prisma.appSettings.create({ data: {} });
+    res.json(settings);
+});
+
+app.put('/api/settings', async (req, res) => {
+    const updated = await prisma.appSettings.update({
+        where: { id: "global" },
+        data: req.body
+    });
+    res.json(updated);
+});
+
+
+
 // 💻 API DASHBOARD REACT
 app.get('/api/orders', async (req, res) => {
     const orders = await prisma.order.findMany({ where: { status: { not: 'DRAFT' } }, include: { user: true, driver: true, business: true, items: { include: { product: true } } }, orderBy: { createdAt: 'desc' } });

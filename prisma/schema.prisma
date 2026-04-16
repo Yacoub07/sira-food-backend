@@ -103,3 +103,13 @@ serviceName   String?     // 👈 AJOUTE CETTE LIGNE ICI
   longitude     Float?
   createdAt     DateTime    @default(now())
 }
+
+// ⚙️ Table de Configuration Dynamique (Modifiable depuis le Dashboard)
+model AppSettings {
+  id              String  @id @default("global")
+  welcomeMessage  String  @default("🌟 Menu Principal SIRA\nQue souhaitez-vous faire ?")
+  termsText       String  @default("📌 Vos informations sont sécurisées. Acceptez-vous nos conditions ?")
+  taxiPrice       Float   @default(2000)
+  busPrice        Float   @default(8000)
+  whatsappToken   String? // Pour changer le token sans redémarrer !
+}
